@@ -35,7 +35,7 @@ Laravel is a free and open-source PHP framework that provides a set of tools and
 Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality.
 
 ### **Checking PHP version in cmd**
-     `php --version`
+     php --version
 
 ### **Composer**
 
@@ -45,17 +45,17 @@ If you don’t have Composer installed, go to (https://getcomposer.org/download/
 
 Once Composer is installed, go to the Terminal, and execute the following command: 
   
-    `composer --version`
+    composer --version
 
 ### Create a new Laravel Project (using Composer)
 
-    `cd C:\laragon\www\`
+    cd C:\laragon\www\
 
-    `composer create-project laravel/laravel onlineStore "9.*" --prefer-dist`
+    composer create-project laravel/laravel onlineStore "9.*" --prefer-dist
 
 ### Run the application
 
-    `cd onlineStore`
+    cd onlineStore
 
 ### What's Artisan?
 
