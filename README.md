@@ -61,6 +61,9 @@ Once Composer is installed, go to the Terminal, and execute the following comman
 
 Artisan is the command line interface included with Laravel. Artisan exists at the root of your application as the artisan script and provides helpful commands to assist you while you build your application. More information about Laravel Artisan can be found here: (https://laravel.com/docs/9.x/artisan).
 
+#### Running Laravel
+    php artisan serve
+
 
 ### Laravel Project Structure
 
@@ -144,6 +147,28 @@ resources/views directory.
 3. code is based on the Bootstrap starter template code and the Bootstrap Navbar (https://getbootstrap.com/docs/5.1/components/navbar/). We modified the base code, including links in the header ( Home and About ). The starter template includes a Bootstrap CSS file ( bootstrap.min.css ), and a Bootstrap JS file ( bootstrap.bundle.min.js ). We included three @yield Blade directives.
 
 @yield is used as a marker. We will inject code in those markers from child Blade views (using the @section directive). @yield uses two parameters, the first is the marker identifier. The second is a default value that will be injected if a child view does not inject code for that marker.
+
+### Modifying *welcome.blade.php* (commit 1e7a5b7)
+
+- Delete all the existing code in `resources/views/welcome.blade.php`
+
+The welcome view extends the layouts.app view. This view injects the 'Home Page - Online Store' message in the @yield('title') of the layouts.app and injects an HTML div with a welcome message inside the @yield('content') of the layouts.app .
+
+### Adding custom CSS styles and a Footer 
+
+#### Custom style (app.css) (commit 38b762c)
+
+- Create a folder css under the `public/` directory.
+- in `public/css ` create a new file `app.css`
+
+#### Modifying app.blade.php (commit 99dafc0)
+
+- in `resources/views/layouts/app.blade.php` , make changes to include the previous CSS file and create the footer section.
+
+Laravel includes a variety of global helper PHP functions. For example, the asset function generates a URL for an asset using the current scheme of the request (HTTP or HTTPS). Since our css/app.css file is inside the public folder, it will be automatically deployed over our server link (i.e., http://127.0.0.1:8000/css/app.css). We used curly braces {{ }} to invoke the asset function. Curly braces are used in Blade files to display data passed to the view or invoke Laravel helpers.
+
+The currently design was inspired by a free Bootstrap template called Freelancer. You can find more information about this template here: https://startbootstrap.com/theme/freelancer. 
+
 
  
 
