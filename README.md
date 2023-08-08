@@ -169,6 +169,146 @@ Laravel includes a variety of global helper PHP functions. For example, the asse
 
 The currently design was inspired by a free Bootstrap template called Freelancer. You can find more information about this template here: https://startbootstrap.com/theme/freelancer. 
 
+## Chapter 06 – Index and About Pages
 
+### Index view [commit 4896d21](https://github.com/Sapiosonic/practical-laravel/commit/4896d219dfe390a828fa73f8a75870af728e70c5)
+
+Let’s create a new index view. In `resources/views/`,create a subfolder `home`. In `resources/views/home`, create a new file `index.blade.php` and fill it with the code.
+
+The first @section injects the content of the viewData["title"] variable. That variable will be defined in the web route file (presented later in this chapter) and passed to this view. 
+
+in the public folder, create a subfolder `img`, download the following three images and store them inside the `public/img` folder.
+
+### About view [commit ecb4b9d](https://github.com/Sapiosonic/practical-laravel/commit/ecb4b9d9b05fe12710700a266413f6e12a10f741)
  
+
+Let’s create the About view. In `resources/views/home` , create a new file `about.blade.php` and fill it with the code.
+
+**Remember that Blade allows curly braces to display data passed to the view.**
+
+### Introducing Laravel Routing [commit a4670e9](https://github.com/Sapiosonic/practical-laravel/commit/a4670e950fdfd64a058a19595f2c65d0d405294c)
+
+Laravel routes accept a URI (Uniform Resource Identifier) along with a closure. Closures are PHP’s version of anonymous functions. A closure is a function you can pass around as an object, assign to a variable, or pass as a parameter to other functions and methods.
+
+Laravel routes are defined in your route files (located in the routes directory).
+
+- The `routes/web.php` file defines routes for your web interface. These are the routes that we will use in this book.
+- The `routes/api.php` file defines routes for your API (if you have one). These are routes used in service-oriented architectures or REST APIs (which is out of the scope of this book).
+
+we presented two ways of defining Laravel routes.
+
+- The first route connects the “/” URI with a closure that returns a view, `view()` is a Laravel helper which retrieves a view instance.
+- The second route connects the “/about” URI with the HomeController about method, we define a custom route name by chaining the name method onto the route definition. 
+
+### Introducing Laravel Controllers [commit fc18a98](https://github.com/Sapiosonic/practical-laravel/commit/fc18a983ace3ccb2dfb3d04d4827f76f617a8c73)
+
+Controllers can group related request handling logic into a single class. For example, a UserController class might handle all incoming requests related to users, including showing, creating, updating, and deleting users.
+
+In `app/Http/Controllers` , create a new file `HomeController.php` and fill it with the code.
+
+We have the HomeController which extends the Laravel Controller class. We have the index, then we have the about method connected to the (“/about”) route in the `routes/web.php` file. This method defines a set of variables and passes them to the home.about view.
+
+Recap, when a user goes to the `(“/”)` route, the `home.index` view will be displayed (delivered in the `routes/web.php` file). Likewise, when a user goes to the `(“/about”)` route, the `home.about` view will be displayed (delivered in the HomeController about method).
+
+**We have also purposely introduced some serious mistakes when defining the previous elements. Why? It is because we want to illustrate the concept of clean code.**
+
+## Chapter 07 – Refactoring Index and About Pages
+
+The code in the previous chapter can be further cleaned and improved. We will provide general tips for handling routes, controllers, and views.
+
+### Refactoring routes [commit fb26b50](https://github.com/Sapiosonic/practical-laravel/commit/fb26b506f4b4718dd686424f7e1d0df19cd1143b)
+
+Our route is now connected to a controller method. We also put a name on that route. We recommend a combination of the controller’s name plus the controller’s method name to define the route name. 
+
+**As a software developer, a good strategy is to create a document with architectural rules and share that document with your team**
+
+### Refactoring controllers [commit ad44300](https://github.com/Sapiosonic/practical-laravel/commit/ad44300ba6a49d38f56b3fed76c2496da81565f9)
+
+Here we have three problems:
+
+-  Variable naming is a mess.
+-   We have many with methods chained.
+-    we have a blank line before the ending of the curly bracket. 
+
+let’s analyze the index method we only define one variable called viewData which contains all the data sent to the view. This variable is an associative array.
+
+### New controller
+
+**Now that we use the single variable strategy, both methods are consistent. we create a subfolder with the controller’s name inside the `resources/views` folder. In this case, the subfolder is called home . And if a controller method displays data, we create a file with the controller’s method name inside the view controller subfolder. So, we have the about.blade.php file stored inside the `resources/views/home` subfolder. It makes easier to find specific views for specific controller methods.**
+
+### Refactoring views [commit 3a04fa2](https://github.com/Sapiosonic/practical-laravel/commit/3a04fa29e047520ca213aaf63a0efb05170af127)
+
+The previous chapter showed two views that display data a little differently. The `home/index` view won’t be changed since it displays the data using the viewData strategy. However, we will need to modify the `home/about` view to match the single variable strategy previously defined.
+
+### Updating links in Header
+
+Now that we have the proper routes, controller, and views, let’s include the links in the header. We use the route helper method in the previous layout, which generates a URL for a given named route. We used the names of the routes defined for the (“/”) route ( home.index ) and the (“/about”) route ( home.about ).
+
+
+## Chapter 08 – Use of a Coding Standard
+
+A coding standard is a set of rules and agreements used when writing source code in a particular programming language. One of the most used PHP coding standards is PSR-2 .
+
+PHP_CodeSniffer is a set of two PHP scripts. The phpcs script tokenizes PHP, JavaScript, and CSS files to detect violations based on a defined coding standard. The phpcbf script automatically corrects coding standard violations.
+PHP_CodeSniffer is an essential development tool that ensures your code remains clean and consistent. More information about PHP_CodeSniffer can be found [here](https://github.com/squizlabs/PHP_CodeSniffer)
+
+### Installing and configuring PHP_CodeSniffer
+
+    composer require --dev squizlabs/php_codesniffer
+
+We will apply a quick configuration of PHP_CodeSniffer. In the project root directory, create a new file phpcs.xml and fill it with the code. [commit e9c86a9](https://github.com/Sapiosonic/practical-laravel/commit/e9c86a9cfcd7bbc6fbe83e0e814f5eeae1b2d3cd)
+
+This file establishes that PHP_CodeSniffer will use PSR-2 as the coding style standard. It also defines that when we run PHP_CodeSniffer, it will find errors in the app/* , config/* , database/* , and routes/* folders. We exclude locations that include a migrations folder.
+
+ ### Running PHP_CodeSniffer
+
+ In the Terminal, go to the project directory, and execute the following:
+
+    ./vendor/bin/phpcs
+
+The previous command executes PHP_CodeSniffer based on the custom configuration defined in the phpcs.xml file Our case showed 17 errors, all with an “X” mark, which means that PHP_CodeSniffer can handle them and fix them (if you want). Some of those errors are related to spaces, indentation, and rules defined in the PSR2 coding style guide. For example, there was an annoying blank line at the end of the about method of the HomeController (before the curly brace closing). So, PHP_CodeSniffer marked it as an error.
+
+To automatically fix it, we need to execute the PHP_CodeSniffer phpcbf file with the following command:
+
+    ./vendor/bin/phpcbf
+
+After that, it shows the errors fixed.[commit d9259fa](https://github.com/Sapiosonic/practical-laravel/commit/d9259faa1b044f9d6a1404f57d69b5480f70884d)
+
+
+### Final remarks
+
+- There are other tools that you can use to extend the PHP_CodeSniffer capabilities. For example, [Larastan](https://github.com/nunomaduro/larastan).
+- PHP_CodeSniffer does not work well with blade files. A formatting Visual Studio Code plugin called Format HTML in PHP can help you to format your Blade views.
+- PHP_CodeSniffer does not automatically fix all errors.
+
+**Don’t leave “broken windows” (e.g., bad designs, wrong decisions, or poor code) unrepaired. Fix each one as soon as it is discovered.**
+
+**Always use a coding standard tool, formatter, static code analysis tool, or even a combination of them in your projects. It will save you much time and improve the code quality.**
+
+## Chapter 09 – List Products with Dummy Data
+
+In this chapter, we will implement functionality to list all products and to be able to click those products and display their data in a separate section.
+
+### Modifying routes [commit 96e2e0d](https://github.com/Sapiosonic/practical-laravel/commit/96e2e0db983946e64c6d5711fe8f5af480dcfb92)
+
+We will list all the application products in the first route (“/products”). The second route will be used to show the data of a single product. “/products/{id}” takes a parameter called id. This parameter is the product id to identify
+which product data to show. For example, if we access “/products/1”, the application will display the data of the product with id=1.
+
+If you noticed, both routes are connected to the ProductController . So, let’s implement it.
+
+### ProductController [commit 30bb213](https://github.com/Sapiosonic/practical-laravel/commit/30bb213121ed6a58dd0cb76411fe7f668ecdbf26)
+
+$products is an array that contains a set of products with its data. In the array index 0, we have the product with id=1 (the “TV”). We have four dummy products. Currently, they are stored as a static attribute of the ProductController class. We will later retrieve product data from a MySQL database.
+
+The index method gets the array of products and sends them to the product.index view to be displayed.
+
+The show method gets an ``$id`` as a parameter the id is collected from the URL. We extract the product data with that id check the bold line. We subtract one unit since we stored the product with id=1 in the `ProductController::$products` array index 0, the product with id=2 in the ProductController::$products array index 1, and so on. We then send the product data to the product.show view.
+
+
+
+
+
+
+
+
 
