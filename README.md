@@ -139,7 +139,7 @@ Most web applications maintain the same general layout across various pages (com
 
 we can define this layout as a single Blade file and use it throughout our application.
 
-### Creating app.blade.php (commit 381c6e5)
+### Creating app.blade.php [commit 381c6e5](https://github.com/Sapiosonic/practical-laravel/commit/381c6e57c4824180c44cbcec6e123cad485695cb)
 
 1. Create a folder called layouts under the
 resources/views directory.
@@ -148,7 +148,7 @@ resources/views directory.
 
 @yield is used as a marker. We will inject code in those markers from child Blade views (using the @section directive). @yield uses two parameters, the first is the marker identifier. The second is a default value that will be injected if a child view does not inject code for that marker.
 
-### Modifying *welcome.blade.php* (commit 1e7a5b7)
+### Modifying *welcome.blade.php* [commit 1e7a5b7](https://github.com/Sapiosonic/practical-laravel/commit/1e7a5b7f8ef7a4ee53bb9435dab58240e34701b3)
 
 - Delete all the existing code in `resources/views/welcome.blade.php`
 
@@ -156,12 +156,12 @@ The welcome view extends the layouts.app view. This view injects the 'Home Page 
 
 ### Adding custom CSS styles and a Footer 
 
-#### Custom style (app.css) (commit 38b762c)
+#### Custom style (app.css) [commit 38b762c](https://github.com/Sapiosonic/practical-laravel/commit/38b762cf7ec329d7ae6494ea1402995f325b4aae)
 
 - Create a folder css under the `public/` directory.
 - in `public/css ` create a new file `app.css`
 
-#### Modifying app.blade.php (commit 99dafc0)
+#### Modifying app.blade.php [commit 99dafc0](https://github.com/Sapiosonic/practical-laravel/commit/99dafc0a519851f66e27775c0e14481e2e6cebfa)
 
 - in `resources/views/layouts/app.blade.php` , make changes to include the previous CSS file and create the footer section.
 
@@ -272,7 +272,7 @@ To automatically fix it, we need to execute the PHP_CodeSniffer phpcbf file with
 
     ./vendor/bin/phpcbf
 
-After that, it shows the errors fixed.[commit d9259fa](https://github.com/Sapiosonic/practical-laravel/commit/d9259faa1b044f9d6a1404f57d69b5480f70884d)
+After that, it shows the errors fixed. [commit d9259fa](https://github.com/Sapiosonic/practical-laravel/commit/d9259faa1b044f9d6a1404f57d69b5480f70884d)
 
 
 ### Final remarks
@@ -303,6 +303,58 @@ $products is an array that contains a set of products with its data. In the arra
 The index method gets the array of products and sends them to the product.index view to be displayed.
 
 The show method gets an ``$id`` as a parameter the id is collected from the URL. We extract the product data with that id check the bold line. We subtract one unit since we stored the product with id=1 in the `ProductController::$products` array index 0, the product with id=2 in the ProductController::$products array index 1, and so on. We then send the product data to the product.show view.
+
+### Product views
+
+Let’s first implement the product.index view, and then, the product.show view.
+
+### Product index view [commit e5ea657](https://github.com/Sapiosonic/practical-laravel/commit/e5ea6573721bc2e297b25e752e451b6a76da1615)
+
+In `resources/views/` , create a subfolder product . Then, in `resources/views/product` , create a new `file index.blade.php`
+
+The important part of the previous code is the [@foreach](https://laravel.com/docs/9.x/blade#blade-directives) . @foreach is a Blade directive which allows us to iterate over a list. 
+
+Finally, we put a link to the product name. The link will route to the product.show route (defined previously in `routes/web.php`) and it requires a parameter to be sent. In this case, we send the product id of the current iterated product.
+
+### Product show view [commit ba745d7](https://github.com/Sapiosonic/practical-laravel/commit/ba745d707335cde74c1ded88efbc8544fdc927f2)
+
+In `resources/views/product` , create a new file `show.blade.php`.
+
+We show the product image, name, and description in the above code. Remember, we are using dummy products. This will change in upcoming chapters.
+
+In the last examples, we have defined a structure to store our controllers, controllers’ methods, routes’ names, and views. For example, the product.show route is linked to the ProductController show method, which displays the product/show view. Try to use this strategy across the entire project as it facilitates finding the views of the corresponding controllers’ methods and vice versa.
+
+### Updating links in Header [commit 43a320f](https://github.com/Sapiosonic/practical-laravel/commit/43a320fec5cc6fd0f41c741c8121d33bb483cfdf)
+
+Now, let’s include the products link in the header. In `resources/views/layouts/app.blade.php`
+
+## Chapter 10 – Configuration of MySQL Database
+
+### Introduction to MySQL
+
+- **MySQL is a database management system.** A database is a structured collection of data. It may be anything from a simple shopping list to a picture gallery or the vast amounts of information in a corporate network. To add, access, and process data stored in a computer database, you need a database management system such as **MySQL.**
+- **MySQL databases are relational.** A relational database stores data in separate tables rather than putting all the data in one big storeroom. The database structures are organized into physical files optimized for speed. MySQL provides a logical model with objects such as databases, tables, views, rows, and columns, which offers a flexible programming environment.
+
+### MySQL tables
+
+A table is used to organize data in rows and columns. It is used for both storing and displaying records in a structured format. The **columns** specify the data type, whereas the **rows** contain the actual data. Below is how you could imagine a MySQL table.
+
+### Introduction to Laravel databases
+
+Almost every modern web application interacts with a database. Laravel makes interacting with databases straightforward across a variety of supported databases. Laravel provides support for four databases:
+
+- MySQL 5.7+
+- PostgreSQL 9.6+
+- SQLite 3.8.8+
+- SQL Server 2017+
+
+
+
+
+
+
+
+
 
 
 
